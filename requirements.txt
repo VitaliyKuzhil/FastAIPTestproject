@@ -1,0 +1,8 @@
+fastapi[standard]
+uvicorn
+sqlalchemy
+pymysql
+cryptography
+pydantic-settings
+python-multipart
+alembic
