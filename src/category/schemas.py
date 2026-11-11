@@ -1,6 +1,6 @@
 # Pydantic моделі (валідація)
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 from src.category.constants import (
     CategoryStatus,
@@ -43,3 +43,7 @@ class CategoryResponse(CategoryBase):
     full_path: Optional[str] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+class CategoryListResponse(BaseModel):
+    items: List[CategoryResponse]
+    total: int
