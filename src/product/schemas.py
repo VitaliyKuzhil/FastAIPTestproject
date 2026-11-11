@@ -127,8 +127,8 @@ class ProductDetailResponse(ProductBase):
     date_modify: datetime
 
     categories: List[ProductCategoryResponse] = []
-    images: List[ProductImageBase] = []
-    attributes: List[ProductAttributeBase] = []
+    images: List[ProductImageResponse] = []
+    attributes: List[ProductAttributeResponse] = []
     stores: List[ProductStoreResponse] = []
     manufacturer: Optional[ManufacturerResponse] = None
 

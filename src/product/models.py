@@ -1,5 +1,8 @@
 # SQLAlchemy модель (таблиця product)
 from sqlalchemy import Column, Integer, String, Text, Numeric, Float, ForeignKey, Enum, DateTime
+from src.manufacturer.models import Manufacturer
+from src.store.models import Store
+from src.category.models import Category
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 

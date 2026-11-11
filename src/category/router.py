@@ -10,6 +10,7 @@ from src.category.schemas import (
 )
 from src.category.constants import CategoryStatus
 from src.category.service import CategoryService
+from src.category.dependencies import get_category_service
 
 router = APIRouter(
     prefix="/category",
@@ -24,7 +25,7 @@ async def get_categories(
     sort_order: Literal["asc", "desc"] = Query("asc", description="Сортування: asc (від А до Я) або desc (від Я до А)"),
     page: int = Query(1, ge=1, description="Номер сторінки"),
     page_size: int = Query(20, ge=1, le=100, description="Кількість записів на сторінку"),
-    service: CategoryService = Depends(CategoryService)
+    service: CategoryService = Depends(get_category_service)
 ):
     """
     Повертає список категорій із пагінацією, фільтрацією та сортуванням за повним шляхом.
@@ -42,7 +43,7 @@ async def get_categories(
 @router.get("/{category_id}", response_model=CategoryResponse)
 async def get_category(
     category_id: int,
-    service: CategoryService = Depends(CategoryService)
+    service: CategoryService = Depends(get_category_service)
 ):
     """
     Повертає всі дані про категорію за її ID.
@@ -52,7 +53,7 @@ async def get_category(
 @router.post("", response_model=CategoryResponse, status_code=status.HTTP_201_CREATED)
 async def create_category(
     schema: CategoryCreate,
-    service: CategoryService = Depends(CategoryService)
+    service: CategoryService = Depends(get_category_service)
 ):
     """
     Створення нової категорії.
@@ -64,7 +65,7 @@ async def create_category(
 async def update_category(
     category_id: int,
     schema: CategoryUpdate,
-    service: CategoryService = Depends(CategoryService)
+    service: CategoryService = Depends(get_category_service)
 ):
     """
     Редагування категорії. Поля date_added, date_modify та category_id редагувати не можна.
@@ -74,7 +75,7 @@ async def update_category(
 @router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_category(
     category_id: int,
-    service: CategoryService = Depends(CategoryService)
+    service: CategoryService = Depends(get_category_service)
 ):
     """
     Видалення категорії. Усі підкатегорії видаляються рекурсивно.
