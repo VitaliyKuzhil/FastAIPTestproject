@@ -1,11 +1,13 @@
 from fastapi import FastAPI
+from src.config import settings
 
-app = FastAPI()
+
+app = FastAPI(title=settings.APP_TITLE)
 
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Infrastructure is up and running!"}
 
 
 @app.get("/hello/{name}")
