@@ -1,0 +1,1 @@
+# Ендпоінти (GET, POST, PATCH, DELETE)

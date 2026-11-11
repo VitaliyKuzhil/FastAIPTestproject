@@ -1,0 +1,1 @@
+# Кастомні винятки (ProductNotFound)
