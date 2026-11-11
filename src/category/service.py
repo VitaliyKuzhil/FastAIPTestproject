@@ -18,7 +18,7 @@ class CategoryService:
         self.session = session
 
     # 3. Проблема N+1 запитів та захист від зациклення (A -> B -> A)
-    async def _build_full_path(self, category: Category, cat_map: Optional[Dict[int, Category]] = None) -> str:
+    async def build_full_path(self, category: Category, cat_map: Optional[Dict[int, Category]] = None) -> str:
         """Рекурсивно будує повний шлях категорії.
         Якщо передано cat_map, будує шлях у пам'яті (оптимізація N+1)."""
         path_parts = []
@@ -65,7 +65,7 @@ class CategoryService:
         await self.session.refresh(category)
 
         # Повертаємо CategoryResponse із розрахованим full_path
-        full_path = await self._build_full_path(category)
+        full_path = await self.build_full_path(category)
         response = CategoryResponse.model_validate(category)
         response.full_path = full_path
         return response
@@ -76,7 +76,7 @@ class CategoryService:
         if not category:
             raise CategoryNotFoundException(category_id)
 
-        full_path = await self._build_full_path(category)
+        full_path = await self.build_full_path(category)
 
         response_data = CategoryResponse.model_validate(category)
         response_data.full_path = full_path
@@ -121,7 +121,7 @@ class CategoryService:
         # Формуємо список з повними шляхами через словник cat_map
         category_responses: List[CategoryResponse] = []
         for cat in categories:
-            full_path = await self._build_full_path(cat, cat_map=cat_map)
+            full_path = await self.build_full_path(cat, cat_map=cat_map)
             res = CategoryResponse.model_validate(cat)
             res.full_path = full_path
             category_responses.append(res)
@@ -163,7 +163,7 @@ class CategoryService:
         await self.session.commit()
         await self.session.refresh(category)
 
-        full_path = await self._build_full_path(category)
+        full_path = await self.build_full_path(category)
         response = CategoryResponse.model_validate(category)
         response.full_path = full_path
         return response

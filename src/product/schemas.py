@@ -22,11 +22,45 @@ class ProductImageBase(BaseModel):
     sort_order: int = 0
 
 
+class ProductImageResponse(ProductImageBase):
+    product_image_id: int
+    product_id: int
+    model_config = ConfigDict(from_attributes=True)
+
+
 class ProductAttributeBase(BaseModel):
     group_name: str = Field(..., max_length=MAX_ATTRIBUTE_GROUP_NAME_LENGTH)
     name: str = Field(..., max_length=MAX_ATTRIBUTE_NAME_LENGTH)
     value: str
     sort_order: int = 0
+
+
+class ProductAttributeResponse(ProductAttributeBase):
+    product_attribute_id: int
+    product_id: int
+    model_config = ConfigDict(from_attributes=True)
+
+class ProductCategoryResponse(BaseModel):
+    product_category_id: int
+    product_id: int
+    category_id: int
+    category_name: Optional[str] = None
+    full_path: Optional[str] = None
+    model_config = ConfigDict(from_attributes=True)
+
+class ProductStoreResponse(BaseModel):
+    product_store_id: int
+    product_id: int
+    store_id: int
+    store_name: Optional[str] = None
+    model_config = ConfigDict(from_attributes=True)
+
+class ManufacturerResponse(BaseModel):
+    manufacturer_id: int
+    name: str
+    image: Optional[str] = None
+    sort_order: int = 0
+    model_config = ConfigDict(from_attributes=True)
 
 
 # --- Основні схеми товару ---
@@ -52,6 +86,7 @@ class ProductCreate(ProductBase):
     category_ids: List[int] = Field(default_factory=list, description="List of Category IDs")
     images: List[ProductImageBase] = Field(default_factory=list)
     attributes: List[ProductAttributeBase] = Field(default_factory=list)
+    store_ids: List[int] = Field(default_factory=list)
 
 
 class ProductUpdate(BaseModel):
@@ -70,16 +105,31 @@ class ProductUpdate(BaseModel):
     status: Optional[ProductStatus] = None
 
     category_ids: Optional[List[int]] = None
-    images: Optional[List[ProductImageBase]] = None
-    attributes: Optional[List[ProductAttributeBase]] = None
 
 
-class ProductResponse(ProductBase):
+class ProductListItemResponse(BaseModel):
+    product_id: int
+    name: str
+    category_name: Optional[str] = None
+    full_path: Optional[str] = None
+    price: Decimal
+
+    model_config = ConfigDict(from_attributes=True)
+
+class ProductListResponse(BaseModel):
+    items: List[ProductListItemResponse]
+    total: int
+
+
+class ProductDetailResponse(ProductBase):
     product_id: int
     date_added: datetime
     date_modify: datetime
 
+    categories: List[ProductCategoryResponse] = []
     images: List[ProductImageBase] = []
     attributes: List[ProductAttributeBase] = []
+    stores: List[ProductStoreResponse] = []
+    manufacturer: Optional[ManufacturerResponse] = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -45,6 +45,8 @@ class Product(Base):
     categories = relationship("ProductCategory", back_populates="product", cascade="all, delete-orphan")
     images = relationship("ProductImage", back_populates="product", cascade="all, delete-orphan")
     attributes = relationship("ProductAttribute", back_populates="product", cascade="all, delete-orphan")
+    stores = relationship("ProductStore", back_populates="product", cascade="all, delete-orphan")
+    manufacturer = relationship("Manufacturer")
 
 
 class ProductCategory(Base):
@@ -55,6 +57,7 @@ class ProductCategory(Base):
     category_id = Column(Integer, ForeignKey("category.category_id", ondelete="CASCADE"), nullable=False)
 
     product = relationship("Product", back_populates="categories")
+    category = relationship("Category")
 
 
 class ProductImage(Base):
