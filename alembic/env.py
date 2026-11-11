@@ -10,6 +10,7 @@ from alembic import context
 from src.config import settings
 from src.models import Base
 from src.category.models import Category
+from src.product.models import Product
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
