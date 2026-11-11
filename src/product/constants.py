@@ -1,1 +1,16 @@
 # Константи (коди помилок, статуси)
+import enum
+
+class ProductStatus(str, enum.Enum):
+    ACTIVE = "1"
+    INACTIVE = "0"
+
+# Constraints for Product
+MAX_PRODUCT_NAME_LENGTH = 255
+MAX_SEO_KEYWORD_LENGTH = 255
+MAX_META_TITLE_LENGTH = 255
+MAX_META_KEYWORD_LENGTH = 255
+MAX_IMAGE_PATH_LENGTH = 255
+MAX_MODEL_LENGTH = 255
+MAX_ATTRIBUTE_GROUP_NAME_LENGTH = 255
+MAX_ATTRIBUTE_NAME_LENGTH = 255

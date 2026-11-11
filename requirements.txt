@@ -6,3 +6,5 @@ cryptography
 pydantic-settings
 python-multipart
 alembic
+pydantic
+greenlet
