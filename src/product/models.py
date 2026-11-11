@@ -35,7 +35,9 @@ class Product(Base):
 
     price = Column(Numeric(10, 2), nullable=False)
     model = Column(String(MAX_MODEL_LENGTH), nullable=True)
-    manufacturer_id = Column(Integer, nullable=True)
+
+    manufacturer_id = Column(Integer, ForeignKey("manufacturer.manufacturer_id", ondelete="SET NULL"), nullable=True)
+
     rating = Column(Float, nullable=True, default=0.0)
     viewed = Column(Integer, nullable=False, default=0)
 
@@ -77,3 +79,14 @@ class ProductAttribute(Base):
     sort_order = Column(Integer, nullable=False, default=0)
 
     product = relationship("Product", back_populates="attributes")
+
+
+class ProductStore(Base):
+    __tablename__ = "product_store"
+
+    product_store_id = Column(Integer, primary_key=True, index=True)
+    product_id = Column(Integer, ForeignKey("product.product_id", ondelete="CASCADE"), nullable=False)
+    store_id = Column(Integer, ForeignKey("store.store_id", ondelete="CASCADE"), nullable=False)
+
+    product = relationship("Product", back_populates="stores")
+    store = relationship("Store")
